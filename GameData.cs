@@ -112,4 +112,9 @@ public class GameData : MonoBehaviour {
             playInformation.Money = 0;
         }
     }
+    
+    public void AddSyokuzai(int id, int count)
+    {
+        SyokuzaiList[id].have += count;
+    }
 }

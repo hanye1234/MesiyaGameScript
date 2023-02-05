@@ -44,12 +44,12 @@ public class ShopingCartController : MonoBehaviour
         for(int i=0;i<looptime;i++){
             if(ShoppingCartList[i].id == itemid){
                 ShoppingCartList[i].have = ShoppingCartList[i].have+count;
-                if(ShoppingCartList[i].have>99){
-                    ShoppingCartList[i].have = 99;
+                if(gameData.SyokuzaiList[itemid].have+ShoppingCartList[i].have>=99){
+                    ShoppingCartList[i].have = 99-gameData.SyokuzaiList[itemid].have;
                 }
                 break;
             }else{
-                if(i==ShoppingCartList.Count-1){
+                if(i==ShoppingCartList.Count-1 && gameData.SyokuzaiList[itemid].have<99){
                     ShoppingCartList.Add(new Syokuzai(){id=itemid,have=count});
                 }
             }
@@ -116,7 +116,7 @@ public class ShopingCartController : MonoBehaviour
         if(gameData.playInformation.Money-CalculateShopCost()>=0){
             gameData.AddMoney(-CalculateShopCost());
             foreach(Syokuzai tempitem in ShoppingCartList){
-                gameData.SyokuzaiList[tempitem.id].have = gameData.SyokuzaiList[tempitem.id].have + tempitem.have;
+                gameData.AddSyokuzai(tempitem.id,tempitem.have);
             }
             ResetCart();
             ShopChang.SetActive(false);
