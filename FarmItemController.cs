@@ -6,7 +6,6 @@ using TMPro;
 public class FarmItemController : MonoBehaviour
 {
     GameData gameData;
-    GameController gameController;
     public GameObject AlertChang;
     TextMeshProUGUI AlertMessageText;
 
@@ -14,7 +13,7 @@ public class FarmItemController : MonoBehaviour
     public List<GameObject> HatakeGameObjectList;
     void Awake()
     {
-        gameController = GameObject.Find("GameController").gameObject.GetComponent<GameController>();
+        gameData = GameObject.Find("GameController").gameObject.GetComponent<GameData>();
     }
     
     void OnEnable()
