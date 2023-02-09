@@ -50,7 +50,12 @@ public class GameData : MonoBehaviour {
     public List<Sprite> SkinSpriteList;
     public List<Sprite> FunitureSpriteList;
 
-    public Inventory PlayerInventory;
+    public Inventory PlayerInventory= new Inventory(){
+        Ingredients = new List<InventoryItem>(),
+        Foods = new List<InventoryItem>(),
+        Funitures = new List<InventoryItem>(),
+        Skins = new List<InventoryItem>()
+    };
     public PlayInformation playInformation;
 
     public void ResetGameData()
@@ -108,22 +113,44 @@ public class GameData : MonoBehaviour {
             new Item(){id=10,name="스킨10",available=false,description="스킨10의 설명"},
         };
         FunitureList = new List<Item>(){
-            new Item(){id=0}
+            new Item(){id=0,name="가구1",available=false,cost=100,description="가구1의 설명",property="Funiture0"},
+            new Item(){id=1,name="가구2",available=false,cost=200,description="가구2의 설명",property="Funiture1"},
+            new Item(){id=2,name="가구3",available=false,cost=300,description="가구3의 설명",property="Funiture1"},
+            new Item(){id=3,name="가구4",available=false,cost=500,description="가구4의 설명",property="Funiture2"},
+        
         };
-        for(int i =0 ; i<IngredientsSpriteList.Count;i++){
+        for(int i =0 ; i<Mathf.Min(IngredientsSpriteList.Count,IngredientsList.Count);i++){
             IngredientsList[i].image = IngredientsSpriteList[i];
         }
-        for(int i = 0;i<FoodSpriteList.Count;i++){
+        for(int i = 0;i<Mathf.Min(FoodSpriteList.Count,FoodList.Count);i++){
             FoodList[i].image = FoodSpriteList[i];
         }
-        for(int i = 0;i<SkinSpriteList.Count;i++){
+        for(int i = 0;i<Mathf.Min(SkinSpriteList.Count,SkinList.Count);i++){
             SkinList[i].image = SkinSpriteList[i];
         }
-        for(int i = 0;i<FunitureSpriteList.Count;i++){
+        for(int i = 0;i<Mathf.Min(FunitureSpriteList.Count,FunitureList.Count);i++){
             FunitureList[i].image = FunitureSpriteList[i];
         }
 
-        PlayerInventory = new Inventory();
+        PlayerInventory= new Inventory(){
+        Ingredients = new List<InventoryItem>(),
+        Foods = new List<InventoryItem>(),
+        Funitures = new List<InventoryItem>(),
+        Skins = new List<InventoryItem>()
+    };
+        for(int i=0;i<IngredientsList.Count;i++){
+            PlayerInventory.Ingredients.Add(new InventoryItem(){id=i,have=0});
+        }
+        for(int i=0;i<FoodList.Count;i++){
+            PlayerInventory.Foods.Add(new InventoryItem(){id=i,have=0});
+        }
+        for(int i=0;i<FunitureList.Count;i++){
+            PlayerInventory.Funitures.Add(new InventoryItem(){id=i,equipped=false,available=false});
+        }
+        for(int i=0;i<SkinList.Count;i++){
+            PlayerInventory.Skins.Add(new InventoryItem(){id=i,equipped=false,available=false});
+        }
+        
         playInformation = new PlayInformation(){Day=0,IsEnded=false,Money=0,Language=0};
         ChangeGameDataLanguage(playInformation.Language);
     }
@@ -139,9 +166,16 @@ public class GameData : MonoBehaviour {
         }
     }
     
+    public bool CanIBuyIt(int M){
+        if(playInformation.Money<M){
+            return false;
+        }
+        return true;
+    }
+
     public void AddIngredients(int id, int count)
     {
-        IngredientsList[id].have += count;
+        PlayerInventory.Ingredients[id].have += count;
     }
 
     public void ChangeGameDataLanguage(int LanguageId){
@@ -156,7 +190,17 @@ public class GameData : MonoBehaviour {
         }
     }
 
-    void InsertSpriteToList(List<Sprite> SpriteList){
-
+    public int ItemPropertyStringToInt(string propertyString){
+        if(propertyString.Contains("0")){
+            return 0;
+        }else if(propertyString.Contains("1")){
+            return 1;
+        }else if(propertyString.Contains("2")){
+            return 2;
+        }else if(propertyString.Contains("3")){
+            return 3;
+        }
+        return -1;
     }
+
 }

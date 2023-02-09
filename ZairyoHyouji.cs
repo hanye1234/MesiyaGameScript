@@ -11,20 +11,17 @@ public class ZairyoHyouji : MonoBehaviour
     public TextMeshProUGUI ZairyoDescriptionName;
     public TextMeshProUGUI ZairyoDescriptionText;
     GameData gameData;
-    List<Item> CurrentIngredientsList = new List<Item>();
+    List<InventoryItem> CurrentIngredientsList = new List<InventoryItem>();
     void Awake()
     {
         gameData = GameObject.Find("GameController").gameObject.GetComponent<GameData>();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+
 
     void OnEnable()
     {
-        CurrentIngredientsList = new List<Item>();
-        foreach(Item item in gameData.IngredientsList)
+        CurrentIngredientsList = new List<InventoryItem>();
+        foreach(InventoryItem item in gameData.PlayerInventory.Ingredients)
         {
             if(item.have>0)
             {
@@ -39,14 +36,8 @@ public class ZairyoHyouji : MonoBehaviour
             im = ZairyoList[i].transform.Find("Ryori_image").gameObject.GetComponent<Image>();
             im.sprite = gameData.IngredientsList[CurrentIngredientsList[i].id].image;
             suji = ZairyoList[i].transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-            suji.text = gameData.IngredientsList[CurrentIngredientsList[i].id].have.ToString();
+            suji.text = CurrentIngredientsList[i].have.ToString();
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void ChangeZairyoDescriptionText(int index)

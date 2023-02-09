@@ -8,4 +8,5 @@ public class InventoryItem
     public int id {get; set;}
     public int have {get; set;}
     public bool available {get; set;}
+    public bool equipped{get;set;}
 }

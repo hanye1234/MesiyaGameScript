@@ -7,7 +7,6 @@ using TMPro;
 public class ShopItemController : MonoBehaviour
 {
     GameData gameData;
-    GameController gameController;
     public ShopingCartController shopingCartController;
     
     public List<GameObject> ShopObject;
@@ -21,19 +20,18 @@ public class ShopItemController : MonoBehaviour
     void Start()
     {
         gameData = GameObject.Find("GameController").gameObject.GetComponent<GameData>();
-        gameController = GameObject.Find("GameController").gameObject.GetComponent<GameController>();
-        for (int i=0;i<10;i++){
+        for (int i=0;i<14;i++){
             CurrentShopItems.Add(new Item(){id=i});
         }
-        ShopItemHyouji();
+        ShowShopItem();
     }
 
     void OnEnable()
     {
-        ShopItemHyouji();
+        ShowShopItem();
     }
 
-    public void ShopItemHyouji(){
+    public void ShowShopItem(){
         foreach(GameObject tempitem in ShopObject){
             tempitem.SetActive(false);
         }

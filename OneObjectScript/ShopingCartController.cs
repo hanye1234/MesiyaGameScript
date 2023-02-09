@@ -26,7 +26,7 @@ public class ShopingCartController : MonoBehaviour
     void OnEnable()
     {
         ResetCart();
-        CartHyouji();
+        ShowCart();
         ShopCostHyouji();
     }
     // Update is called once per frame
@@ -36,23 +36,23 @@ public class ShopingCartController : MonoBehaviour
     }
     public void AddCart(int itemid,int count){
         int looptime = ShoppingCartList.Count;
-        if(looptime==0){
+        if(looptime==0 && gameData.PlayerInventory.Ingredients[itemid].have<99){
             ShoppingCartList.Add(new Item(){id=itemid,have=count});
         }
         for(int i=0;i<looptime;i++){
             if(ShoppingCartList[i].id == itemid){
                 ShoppingCartList[i].have = ShoppingCartList[i].have+count;
-                if(gameData.IngredientsList[itemid].have+ShoppingCartList[i].have>=99){
-                    ShoppingCartList[i].have = 99-gameData.IngredientsList[itemid].have;
+                if(gameData.PlayerInventory.Ingredients[itemid].have+ShoppingCartList[i].have>=99){
+                    ShoppingCartList[i].have = 99-gameData.PlayerInventory.Ingredients[itemid].have;
                 }
                 break;
             }else{
-                if(i==ShoppingCartList.Count-1 && gameData.IngredientsList[itemid].have<99){
+                if(i==ShoppingCartList.Count-1 && gameData.PlayerInventory.Ingredients[itemid].have<99){
                     ShoppingCartList.Add(new Item(){id=itemid,have=count});
                 }
             }
         }
-        CartHyouji();
+        ShowCart();
         ShopCostHyouji();
     }
 
@@ -61,12 +61,12 @@ public class ShopingCartController : MonoBehaviour
         if(ShoppingCartList[index].have<=0){
             ShoppingCartList.RemoveAt(index);
         }
-        CartHyouji();
+        ShowCart();
         ShopCostHyouji();
     }
 
 
-    public void CartHyouji(){
+    public void ShowCart(){
         foreach(GameObject tempitem in CartObjectList){
             tempitem.SetActive(false);
         }
