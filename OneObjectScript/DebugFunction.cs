@@ -18,10 +18,10 @@ public class DebugFunction : MonoBehaviour
         gameData.playInformation.Money=99999;
     }
 
-    public void SyokuzaiCheat()
+    public void ItemCheat()
     {
-        for(int i=0;i<gameData.SyokuzaiList.Count;i++){
-            gameData.SyokuzaiList[i].have =999;
+        for(int i=0;i<gameData.IngredientsList.Count;i++){
+            gameData.IngredientsList[i].have =999;
         }
         
     }

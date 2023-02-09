@@ -22,7 +22,7 @@ public class HatakeItemController : MonoBehaviour
     void OnDisable()
     {
         AlertChang.SetActive(true);
-        AlertMessageText.text = gameData.SyokuzaiList[item_id].name+"를"+item_count+"개 얻었다!";
-        gameData.AddSyokuzai(item_id,item_count);
+        AlertMessageText.text = gameData.IngredientsList[item_id].name+"를"+item_count+"개 얻었다!";
+        gameData.AddIngredients(item_id,item_count);
     }
 }

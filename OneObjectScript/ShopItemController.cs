@@ -11,11 +11,11 @@ public class ShopItemController : MonoBehaviour
     public ShopingCartController shopingCartController;
     
     public List<GameObject> ShopObject;
-    List<Syokuzai> CurrentShopItems;
+    List<Item> CurrentShopItems;
     int AddCount = 1;
     void Awake()
     {
-        CurrentShopItems  = new List<Syokuzai>();
+        CurrentShopItems  = new List<Item>();
     }
     // Start is called before the first frame update
     void Start()
@@ -23,7 +23,7 @@ public class ShopItemController : MonoBehaviour
         gameData = GameObject.Find("GameController").gameObject.GetComponent<GameData>();
         gameController = GameObject.Find("GameController").gameObject.GetComponent<GameController>();
         for (int i=0;i<10;i++){
-            CurrentShopItems.Add(new Syokuzai(){id=i});
+            CurrentShopItems.Add(new Item(){id=i});
         }
         ShopItemHyouji();
     }
@@ -39,8 +39,8 @@ public class ShopItemController : MonoBehaviour
         }
         for(int i=0;i<CurrentShopItems.Count;i++){
             ShopObject[i].SetActive(true);
-            ShopObject[i].transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = gameController.ZairyoSpriteList[CurrentShopItems[i].id];
-            ShopObject[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = gameData.SyokuzaiList[CurrentShopItems[i].id].cost.ToString();
+            ShopObject[i].transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = gameData.IngredientsList[CurrentShopItems[i].id].image;
+            ShopObject[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = gameData.IngredientsList[CurrentShopItems[i].id].cost.ToString();
         }
     }
 

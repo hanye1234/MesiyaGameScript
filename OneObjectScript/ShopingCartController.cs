@@ -5,19 +5,17 @@ using UnityEngine.UI;
 using TMPro;
 public class ShopingCartController : MonoBehaviour
 {
-    GameController gameController;
     GameData gameData;
     public TextMeshProUGUI ShopCostText;
     public TextMeshProUGUI ExpectedMoneyText;
     public GameObject ShopChang;
 
-    List<Syokuzai> ShoppingCartList;
+    List<Item> ShoppingCartList;
     public List<GameObject> CartObjectList;
     int AddCount = 1;
     // Start is called before the first frame update
     void Awake()
     {
-        gameController = GameObject.Find("GameController").gameObject.GetComponent<GameController>();
         gameData = GameObject.Find("GameController").gameObject.GetComponent<GameData>();
     }
     void Start()
@@ -39,18 +37,18 @@ public class ShopingCartController : MonoBehaviour
     public void AddCart(int itemid,int count){
         int looptime = ShoppingCartList.Count;
         if(looptime==0){
-            ShoppingCartList.Add(new Syokuzai(){id=itemid,have=count});
+            ShoppingCartList.Add(new Item(){id=itemid,have=count});
         }
         for(int i=0;i<looptime;i++){
             if(ShoppingCartList[i].id == itemid){
                 ShoppingCartList[i].have = ShoppingCartList[i].have+count;
-                if(gameData.SyokuzaiList[itemid].have+ShoppingCartList[i].have>=99){
-                    ShoppingCartList[i].have = 99-gameData.SyokuzaiList[itemid].have;
+                if(gameData.IngredientsList[itemid].have+ShoppingCartList[i].have>=99){
+                    ShoppingCartList[i].have = 99-gameData.IngredientsList[itemid].have;
                 }
                 break;
             }else{
-                if(i==ShoppingCartList.Count-1 && gameData.SyokuzaiList[itemid].have<99){
-                    ShoppingCartList.Add(new Syokuzai(){id=itemid,have=count});
+                if(i==ShoppingCartList.Count-1 && gameData.IngredientsList[itemid].have<99){
+                    ShoppingCartList.Add(new Item(){id=itemid,have=count});
                 }
             }
         }
@@ -74,7 +72,7 @@ public class ShopingCartController : MonoBehaviour
         }
         for(int i=0;i<ShoppingCartList.Count;i++){
             CartObjectList[i].SetActive(true);
-            CartObjectList[i].transform.GetChild(0).gameObject.GetComponent<Image>().sprite = gameController.ZairyoSpriteList[ShoppingCartList[i].id];
+            CartObjectList[i].transform.GetChild(0).gameObject.GetComponent<Image>().sprite = gameData.IngredientsList[ShoppingCartList[i].id].image;
             CartObjectList[i].transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = ShoppingCartList[i].have.ToString();
         }
     }
@@ -97,7 +95,7 @@ public class ShopingCartController : MonoBehaviour
     }
 
     public void ResetCart(){
-        ShoppingCartList = new List<Syokuzai>();
+        ShoppingCartList = new List<Item>();
     }
 
     public void SetAddCount(int c){
@@ -106,8 +104,8 @@ public class ShopingCartController : MonoBehaviour
 
     public int CalculateShopCost(){
         int sum = 0;
-        foreach(Syokuzai tempitem in ShoppingCartList){
-            sum = sum + gameData.SyokuzaiList[tempitem.id].cost*tempitem.have;
+        foreach(Item tempitem in ShoppingCartList){
+            sum = sum + gameData.IngredientsList[tempitem.id].cost*tempitem.have;
         }
         return sum;
     }
@@ -115,8 +113,8 @@ public class ShopingCartController : MonoBehaviour
     public void BuyConfirm(){
         if(gameData.playInformation.Money-CalculateShopCost()>=0){
             gameData.AddMoney(-CalculateShopCost());
-            foreach(Syokuzai tempitem in ShoppingCartList){
-                gameData.AddSyokuzai(tempitem.id,tempitem.have);
+            foreach(Item tempitem in ShoppingCartList){
+                gameData.AddIngredients(tempitem.id,tempitem.have);
             }
             ResetCart();
             ShopChang.SetActive(false);

@@ -10,7 +10,7 @@ public class FarmItemController : MonoBehaviour
     public GameObject AlertChang;
     TextMeshProUGUI AlertMessageText;
 
-    List<Syokuzai> CurrentHatakeSyokuzaiList = new List<Syokuzai>();
+    List<Item> CurrentHatakeIngredientsList = new List<Item>();
     public List<GameObject> HatakeGameObjectList;
     void Awake()
     {
@@ -22,23 +22,23 @@ public class FarmItemController : MonoBehaviour
         foreach(GameObject temp in HatakeGameObjectList){
             temp.SetActive(false);
         }
-        HatakeHyouji();
+        ShowHatake();
     }
 
 
-    public void GenerateSyokuzai(int index){
-        if(CurrentHatakeSyokuzaiList.Count<HatakeGameObjectList.Count){
-            CurrentHatakeSyokuzaiList.Add(new Syokuzai(){id=index,have=1});
+    public void GenerateIngredients(int index){
+        if(CurrentHatakeIngredientsList.Count<HatakeGameObjectList.Count){
+            CurrentHatakeIngredientsList.Add(new Item(){id=index,have=1});
         }
         
     }
 
-    public void HatakeHyouji(){
-        for(int i =0 ; i<CurrentHatakeSyokuzaiList.Count;i++){
+    public void ShowHatake(){
+        for(int i =0 ; i<CurrentHatakeIngredientsList.Count;i++){
             HatakeGameObjectList[i].SetActive(true);
-            HatakeGameObjectList[i].GetComponent<SpriteRenderer>().sprite = gameController.ZairyoSpriteList[CurrentHatakeSyokuzaiList[i].id];
-            HatakeGameObjectList[i].GetComponent<HatakeItemController>().item_id = CurrentHatakeSyokuzaiList[i].id;
-            HatakeGameObjectList[i].GetComponent<HatakeItemController>().item_count = CurrentHatakeSyokuzaiList[i].have;
+            HatakeGameObjectList[i].GetComponent<SpriteRenderer>().sprite = gameData.IngredientsList[CurrentHatakeIngredientsList[i].id].image;
+            HatakeGameObjectList[i].GetComponent<HatakeItemController>().item_id = CurrentHatakeIngredientsList[i].id;
+            HatakeGameObjectList[i].GetComponent<HatakeItemController>().item_count = CurrentHatakeIngredientsList[i].have;
         }
     }
 }

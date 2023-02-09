@@ -4,8 +4,10 @@ using UnityEngine;
 [System.Serializable]
 public class Save {
 
-    public List<Syokuzai> SavedSyokuzaiList;
-    public List<Food> SavedFoodList;
-    public List<Skin> SavedSkinList;
+    public List<Item> SavedIngredientsList;
+    public List<Item> SavedFoodList;
+    public List<Item> SavedSkinList;
+    public List<Item> SavedFunitureList;
+    public Inventory SavedPlayerInventory;
     public PlayInformation SavedPlayInformation;
 }

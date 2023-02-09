@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         InputX = Input.GetAxis("Horizontal");
         InputY = Input.GetAxis("Vertical");
-        Move(InputX,InputY,0.1f);
+        Move(InputX,InputY,10f*Time.deltaTime);
     }
 
     public void Move(float X, float Y,float speed){

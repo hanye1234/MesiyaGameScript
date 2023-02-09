@@ -41,65 +41,91 @@ public class GameData : MonoBehaviour {
         {12,"햄"},
         {13,"토마토"}
     };
-    public List<Syokuzai> SyokuzaiList = new List<Syokuzai>();
-    public List<Food> FoodList = new List<Food>();
-    public List<Skin> SkinList = new List<Skin>();
+    public List<Item> IngredientsList = new List<Item>();
+    public List<Item> FoodList = new List<Item>();
+    public List<Item> SkinList = new List<Item>();
+    public List<Item> FunitureList = new List<Item>();
+    public List<Sprite> FoodSpriteList;
+    public List<Sprite> IngredientsSpriteList;
+    public List<Sprite> SkinSpriteList;
+    public List<Sprite> FunitureSpriteList;
+
+    public Inventory PlayerInventory;
     public PlayInformation playInformation;
 
     public void ResetGameData()
     {
-        SyokuzaiList = new List<Syokuzai>()
+        IngredientsList = new List<Item>()
         {
-            new Syokuzai(){id = 0, name="밀가루", cost=100, have=0,description = "밀을 빻은 것. 고운 정도에 따라 용도가 달라진다."},
-            new Syokuzai(){id = 1, name="생선", cost=100, have=0,description = "무슨 생선인지는 상상에 맡깁니다."},
-            new Syokuzai(){id = 2, name="달걀", cost=100, have=0,description = "완전식품. 삶아도 구워도 맛있다!"},
-            new Syokuzai(){id = 3, name="딸기", cost=10, have=0,description="베리베리 스트로베리."},
-            new Syokuzai(){id = 4, name="버섯", cost=20, have=0,description="버섯."},
-            new Syokuzai(){id = 5, name="고추", cost=30, have=0,description="고추. 아키나가 아니다."},
-            new Syokuzai(){id = 6, name="당근", cost=30, have=0,description="당근을 흔들어주세요."},
-            new Syokuzai(){id = 7, name="우유", cost=10, have=0,description="포유류의 젖에서 짜낸 액체."},
-            new Syokuzai(){id = 8, name="치즈", cost=50, have=0,description="우유를 발효시킨 식품."},
-            new Syokuzai(){id = 9, name="고기", cost=100, have=0,description="무슨 고기인지는 상상에 맡깁니다."},
-            new Syokuzai(){id = 10, name="밥", cost=40, have=0,description="밥. 밥집의 밥."},
-            new Syokuzai(){id = 11, name="두부", cost=30, have=0,description="콩을 갈아 굳힌 것. 중요한 단백질 보충원."},
-            new Syokuzai(){id = 12, name="햄", cost=70, have=0,description="햄!"},
-            new Syokuzai(){id = 13, name="토마토", cost=30, have=0,description="토마토마토마토마토마토마토. 멋쟁이."}
-        };
-        FoodList = new List<Food>()
+            new Item(){id = 0, kname="밀가루",jname="小麦粉", cost=100, have=0,kdescription = "밀을 빻은 것. 고운 정도에 따라 용도가 달라진다.",jdescription=""},
+            new Item(){id = 1, kname="생선",jname="魚", cost=100, have=0,kdescription = "무슨 생선인지는 상상에 맡깁니다.",jdescription=""},
+            new Item(){id = 2, kname="달걀",jname="卵", cost=100, have=0,kdescription = "완전식품. 삶아도 구워도 맛있다!",jdescription=""},
+            new Item(){id = 3, kname="딸기",jname="イチゴ", cost=10, have=0,kdescription="베리베리 스트로베리.",jdescription=""},
+            new Item(){id = 4, kname="버섯",jname="きのこ", cost=20, have=0,kdescription="버섯.",jdescription=""},
+            new Item(){id = 5, kname="고추",jname="唐辛子", cost=30, have=0,kdescription="고추. 아키나가 아니다.",jdescription=""},
+            new Item(){id = 6, kname="당근",jname="にんじん", cost=30, have=0,kdescription="당근을 흔들어주세요.",jdescription=""},
+            new Item(){id = 7, kname="우유",jname="牛乳", cost=10, have=0,kdescription="포유류의 젖에서 짜낸 액체.",jdescription=""},
+            new Item(){id = 8, kname="치즈",jname="チーズ", cost=50, have=0,kdescription="우유를 발효시킨 식품.",jdescription=""},
+            new Item(){id = 9, kname="고기",jname="肉", cost=100, have=0,kdescription="무슨 고기인지는 상상에 맡깁니다.",jdescription=""},
+            new Item(){id = 10, kname="밥", jname="ご飯",cost=40, have=0,kdescription="밥. 밥집의 밥.",jdescription=""},
+            new Item(){id = 11, kname="두부",jname="豆腐", cost=30, have=0,kdescription="콩을 갈아 굳힌 것. 중요한 단백질 보충원.",jdescription=""},
+            new Item(){id = 12, kname="햄",jname="ハム", cost=70, have=0,kdescription="햄!",jdescription=""},
+            new Item(){id = 13, kname="토마토",jname="トマト", cost=30, have=0,kdescription="토마토마토마토마토마토마토. 멋쟁이.",jdescription=""}
+        };   
+        FoodList = new List<Item>()
         {
-            new Food(){id=0,name="두부튀김",cost=0,have=0,available=false,recipe = new int[]{11}},
-            new Food(){id=1,name="주먹밥",cost=0,have=0,available=false,recipe=new int[]{10}},
-            new Food(){id=2,name="계란후라이",cost=0,have=0,available=false,recipe=new int[]{2}},
-            new Food(){id=3,name="햄버그",cost=0,have=0,available=false,recipe=new int[]{9}},
-            new Food(){id=4,name="생선구이",cost=0,have=0,available=false,recipe=new int[]{1}},
-            new Food(){id=5,name="우동",cost=0,have=0,available=false,recipe=new int[]{0,11}},
-            new Food(){id=6,name="샐러드",cost=0,have=0,available=false,recipe=new int[]{6,13}},
-            new Food(){id=7,name="규동",cost=0,have=0,available=false,recipe=new int[]{9,10}},
-            new Food(){id=8,name="TKG",cost=0,have=0,available=false,recipe=new int[]{2,10}},
-            new Food(){id=9,name="스튜",cost=0,have=0,available=false,recipe=new int[]{4,6,7}},
-            new Food(){id=10,name="햄버거",cost=0,have=0,available=false,recipe=new int[]{0,9}},
-            new Food(){id=11,name="오므라이스",cost=0,have=0,available=false,recipe=new int[]{2,10,13}},
-            new Food(){id=12,name="돈가쓰",cost=0,have=0,available=false,recipe=new int[]{0,9}},
-            new Food(){id=13,name="피자",cost=0,have=0,available=false,recipe=new int[]{0,8,9,13}},
-            new Food(){id=14,name="크레이프",cost=0,have=0,available=false,recipe=new int[]{0,3}},
-            new Food(){id=15,name="샌드위치",cost=0,have=0,available=false,recipe=new int[]{0,2,8,12,13}},
-            new Food(){id=17,name="볶음밥",cost=0,have=0,available=false,recipe=new int[]{2,10,12}},
+            new Item(){id=0,kname="두부튀김",jname="揚げ豆腐",cost=0,have=0,available=false,recipe = new int[]{11}},
+            new Item(){id=1,kname="주먹밥",jname="おにぎり",cost=0,have=0,available=false,recipe=new int[]{10}},
+            new Item(){id=2,kname="계란후라이",jname="目玉焼き",cost=0,have=0,available=false,recipe=new int[]{2}},
+            new Item(){id=3,kname="햄버그",jname="ハンバーグ",cost=0,have=0,available=false,recipe=new int[]{9}},
+            new Item(){id=4,kname="생선구이",jname="焼き魚",cost=0,have=0,available=false,recipe=new int[]{1}},
+            new Item(){id=5,kname="우동",jname="うどん",cost=0,have=0,available=false,recipe=new int[]{0,11}},
+            new Item(){id=6,kname="샐러드",jname="サラダ",cost=0,have=0,available=false,recipe=new int[]{6,13}},
+            new Item(){id=7,kname="규동",jname="牛丼",cost=0,have=0,available=false,recipe=new int[]{9,10}},
+            new Item(){id=8,kname="간계밥",jname="TKG",cost=0,have=0,available=false,recipe=new int[]{2,10}},
+            new Item(){id=9,kname="스튜",jname="シチュー",cost=0,have=0,available=false,recipe=new int[]{4,6,7}},
+            new Item(){id=10,kname="햄버거",jname="ハンバーガー",cost=0,have=0,available=false,recipe=new int[]{0,9}},
+            new Item(){id=11,kname="오므라이스",jname="オムライス",cost=0,have=0,available=false,recipe=new int[]{2,10,13}},
+            new Item(){id=12,kname="돈가쓰",jname="トンカツ",cost=0,have=0,available=false,recipe=new int[]{0,9}},
+            new Item(){id=13,kname="피자",jname="ピザ",cost=0,have=0,available=false,recipe=new int[]{0,8,9,13}},
+            new Item(){id=14,kname="크레이프",jname="クレープ",cost=0,have=0,available=false,recipe=new int[]{0,3}},
+            new Item(){id=15,kname="샌드위치",jname="サンドイッチ",cost=0,have=0,available=false,recipe=new int[]{0,2,8,12,13}},
+            new Item(){id=17,kname="볶음밥",jname="チャーハン",cost=0,have=0,available=false,recipe=new int[]{2,10,12}},
+            new Item(){id=17,kname="초밥",jname="寿司",cost=0,have=0,available=false,recipe=new int[]{1,10}},
         };
-        SkinList = new List<Skin>()
+        SkinList = new List<Item>()
         {
-            new Skin(){id=0,name="스킨0",available=false,description="스킨0의 설명"},
-            new Skin(){id=1,name="스킨1",available=false,description="스킨1의 설명"},
-            new Skin(){id=2,name="스킨2",available=false,description="스킨2의 설명"},
-            new Skin(){id=3,name="스킨3",available=false,description="스킨3의 설명"},
-            new Skin(){id=4,name="스킨4",available=false,description="스킨4의 설명"},
-            new Skin(){id=5,name="스킨5",available=false,description="스킨5의 설명"},
-            new Skin(){id=6,name="스킨6",available=false,description="스킨6의 설명"},
-            new Skin(){id=7,name="스킨7",available=false,description="스킨7의 설명"},
-            new Skin(){id=8,name="스킨8",available=false,description="스킨8의 설명"},
-            new Skin(){id=9,name="스킨9",available=false,description="스킨9의 설명"},
-            new Skin(){id=10,name="스킨10",available=false,description="스킨10의 설명"},
+            new Item(){id=0,name="스킨0",available=false,description="스킨0의 설명"},
+            new Item(){id=1,name="스킨1",available=false,description="스킨1의 설명"},
+            new Item(){id=2,name="스킨2",available=false,description="스킨2의 설명"},
+            new Item(){id=3,name="스킨3",available=false,description="스킨3의 설명"},
+            new Item(){id=4,name="스킨4",available=false,description="스킨4의 설명"},
+            new Item(){id=5,name="스킨5",available=false,description="스킨5의 설명"},
+            new Item(){id=6,name="스킨6",available=false,description="스킨6의 설명"},
+            new Item(){id=7,name="스킨7",available=false,description="스킨7의 설명"},
+            new Item(){id=8,name="스킨8",available=false,description="스킨8의 설명"},
+            new Item(){id=9,name="스킨9",available=false,description="스킨9의 설명"},
+            new Item(){id=10,name="스킨10",available=false,description="스킨10의 설명"},
         };
-        playInformation = new PlayInformation(){Day=0,IsEnded=false,Money=0};
+        FunitureList = new List<Item>(){
+            new Item(){id=0}
+        };
+        for(int i =0 ; i<IngredientsSpriteList.Count;i++){
+            IngredientsList[i].image = IngredientsSpriteList[i];
+        }
+        for(int i = 0;i<FoodSpriteList.Count;i++){
+            FoodList[i].image = FoodSpriteList[i];
+        }
+        for(int i = 0;i<SkinSpriteList.Count;i++){
+            SkinList[i].image = SkinSpriteList[i];
+        }
+        for(int i = 0;i<FunitureSpriteList.Count;i++){
+            FunitureList[i].image = FunitureSpriteList[i];
+        }
+
+        PlayerInventory = new Inventory();
+        playInformation = new PlayInformation(){Day=0,IsEnded=false,Money=0,Language=0};
+        ChangeGameDataLanguage(playInformation.Language);
     }
 
     public void AddMoney(int M)
@@ -113,8 +139,24 @@ public class GameData : MonoBehaviour {
         }
     }
     
-    public void AddSyokuzai(int id, int count)
+    public void AddIngredients(int id, int count)
     {
-        SyokuzaiList[id].have += count;
+        IngredientsList[id].have += count;
+    }
+
+    public void ChangeGameDataLanguage(int LanguageId){
+        foreach(Item item in IngredientsList){
+            if(LanguageId==0){
+                item.name = item.kname;
+                item.description = item.kdescription;
+            }else if(LanguageId==1){
+                item.name = item.jname;
+                item.description = item.jdescription;
+            }
+        }
+    }
+
+    void InsertSpriteToList(List<Sprite> SpriteList){
+
     }
 }

@@ -21,9 +21,11 @@ public class SaveScript : MonoBehaviour {
     {
         var save = new Save()
         {
-            SavedSyokuzaiList = gameData.SyokuzaiList,
+            SavedIngredientsList = gameData.IngredientsList,
             SavedFoodList = gameData.FoodList,
             SavedSkinList = gameData.SkinList,
+            SavedFunitureList = gameData.FunitureList,
+            SavedPlayerInventory = gameData.PlayerInventory,
             SavedPlayInformation = gameData.playInformation,
         };
 
@@ -48,9 +50,11 @@ public class SaveScript : MonoBehaviour {
                 save = (Save)binaryFormatter.Deserialize(fileStream);
             }
 
-            gameData.SyokuzaiList = save.SavedSyokuzaiList;
+            gameData.IngredientsList = save.SavedIngredientsList;
             gameData.SkinList = save.SavedSkinList;
             gameData.FoodList = save.SavedFoodList;
+            gameData.FunitureList = save.SavedFunitureList;
+            gameData.PlayerInventory = save.SavedPlayerInventory;
             gameData.playInformation = save.SavedPlayInformation;
 
             Debug.Log("Data Loaded");

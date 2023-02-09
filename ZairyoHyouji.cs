@@ -11,12 +11,10 @@ public class ZairyoHyouji : MonoBehaviour
     public TextMeshProUGUI ZairyoDescriptionName;
     public TextMeshProUGUI ZairyoDescriptionText;
     GameData gameData;
-    GameController gameController;
-    List<Syokuzai> CurrentSyokuzaiList = new List<Syokuzai>();
+    List<Item> CurrentIngredientsList = new List<Item>();
     void Awake()
     {
         gameData = GameObject.Find("GameController").gameObject.GetComponent<GameData>();
-        gameController = GameObject.Find("GameController").gameObject.GetComponent<GameController>();
     }
     // Start is called before the first frame update
     void Start()
@@ -25,23 +23,23 @@ public class ZairyoHyouji : MonoBehaviour
 
     void OnEnable()
     {
-        CurrentSyokuzaiList = new List<Syokuzai>();
-        foreach(Syokuzai item in gameData.SyokuzaiList)
+        CurrentIngredientsList = new List<Item>();
+        foreach(Item item in gameData.IngredientsList)
         {
             if(item.have>0)
             {
-                CurrentSyokuzaiList.Add(item);
+                CurrentIngredientsList.Add(item);
             }
         }
         Image im;
         TextMeshProUGUI suji;
-        for(int i=0; i<CurrentSyokuzaiList.Count;i++)
+        for(int i=0; i<CurrentIngredientsList.Count;i++)
         {
             ZairyoList[i].SetActive(true);
             im = ZairyoList[i].transform.Find("Ryori_image").gameObject.GetComponent<Image>();
-            im.sprite = gameController.ZairyoSpriteList[CurrentSyokuzaiList[i].id];
+            im.sprite = gameData.IngredientsList[CurrentIngredientsList[i].id].image;
             suji = ZairyoList[i].transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-            suji.text = gameData.SyokuzaiList[CurrentSyokuzaiList[i].id].have.ToString();
+            suji.text = gameData.IngredientsList[CurrentIngredientsList[i].id].have.ToString();
         }
     }
 
@@ -53,8 +51,8 @@ public class ZairyoHyouji : MonoBehaviour
 
     public void ChangeZairyoDescriptionText(int index)
     {
-        ZairyoImage.sprite = gameController.ZairyoSpriteList[CurrentSyokuzaiList[index].id];
-        ZairyoDescriptionName.text=gameData.SyokuzaiList[CurrentSyokuzaiList[index].id].name.ToString();
-        ZairyoDescriptionText.text=gameData.SyokuzaiList[CurrentSyokuzaiList[index].id].description.ToString();
+        ZairyoImage.sprite = gameData.IngredientsList[CurrentIngredientsList[index].id].image;
+        ZairyoDescriptionName.text=gameData.IngredientsList[CurrentIngredientsList[index].id].name.ToString();
+        ZairyoDescriptionText.text=gameData.IngredientsList[CurrentIngredientsList[index].id].description.ToString();
     }
 }
