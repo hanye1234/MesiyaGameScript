@@ -111,7 +111,7 @@ public class ShopingCartController : MonoBehaviour
     }
 
     public void BuyConfirm(){
-        if(gameData.playInformation.Money-CalculateShopCost()>=0){
+        if(gameData.CanIBuyItWithAlertWindow(CalculateShopCost())){
             gameData.AddMoney(-CalculateShopCost());
             foreach(Item tempitem in ShoppingCartList){
                 gameData.AddIngredients(tempitem.id,tempitem.have);

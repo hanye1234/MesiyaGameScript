@@ -5,7 +5,9 @@ using UnityEngine;
 public class chang_controller : MonoBehaviour
 {
     public GameObject MaeChang;
+    public List<GameObject> UsiroChangs;
     // Start is called before the first frame update
+    bool IsOpened;
     void Start()
     {
         
@@ -14,9 +16,20 @@ public class chang_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.Escape)){
-            MaeChang.SetActive(true);
-            gameObject.SetActive(false);
+            IsOpened = false;
+            foreach(GameObject temp in UsiroChangs){
+                if(temp.activeInHierarchy){
+                    IsOpened = true;
+                    break;
+                }
+            }
+            if(IsOpened == false){
+                MaeChang.SetActive(true);
+                gameObject.SetActive(false);
+            }
+            
         }
     }
 }

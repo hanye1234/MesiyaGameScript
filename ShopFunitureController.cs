@@ -54,7 +54,7 @@ public class ShopFunitureController : MonoBehaviour
         if(gameData.PlayerInventory.Funitures[itemid].available){
             Debug.Log("이미 갖고 있는 가구입니다");
         }
-        else if(gameData.CanIBuyIt(gameData.FunitureList[itemid].cost)==false){
+        else if(gameData.CanIBuyItWithAlertWindow(gameData.FunitureList[itemid].cost)==false){
             Debug.Log("돈이 모자랍니다");
         }
         else{
