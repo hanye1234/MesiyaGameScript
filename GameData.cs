@@ -108,17 +108,17 @@ public class GameData : MonoBehaviour {
         };
         SkinList = new List<Item>()
         {
-            new Item(){id=0,name="스킨0",available=false,description="스킨0의 설명",property="Skins"},
-            new Item(){id=1,name="스킨1",available=false,description="스킨1의 설명",property="Skins"},
-            new Item(){id=2,name="스킨2",available=false,description="스킨2의 설명",property="Skins"},
-            new Item(){id=3,name="스킨3",available=false,description="스킨3의 설명",property="Skins"},
-            new Item(){id=4,name="스킨4",available=false,description="스킨4의 설명",property="Skins"},
-            new Item(){id=5,name="스킨5",available=false,description="스킨5의 설명",property="Skins"},
-            new Item(){id=6,name="스킨6",available=false,description="스킨6의 설명",property="Skins"},
-            new Item(){id=7,name="스킨7",available=false,description="스킨7의 설명",property="Skins"},
-            new Item(){id=8,name="스킨8",available=false,description="스킨8의 설명",property="Skins"},
-            new Item(){id=9,name="스킨9",available=false,description="스킨9의 설명",property="Skins"},
-            new Item(){id=10,name="스킨10",available=false,description="스킨10의 설명",property="Skins"},
+            new Item(){id=0,name="스킨0",available=false,description="스킨0의 설명",property="AkinaSkins"},
+            new Item(){id=1,name="스킨1",available=false,description="스킨1의 설명",property="AkinaSkins"},
+            new Item(){id=2,name="스킨2",available=false,description="스킨2의 설명",property="FuwaSkins"},
+            new Item(){id=3,name="스킨3",available=false,description="스킨3의 설명",property="MayuSkins"},
+            new Item(){id=4,name="스킨4",available=false,description="스킨4의 설명",property="AkinaSkins"},
+            new Item(){id=5,name="스킨5",available=false,description="스킨5의 설명",property="FuwaSkins"},
+            new Item(){id=6,name="스킨6",available=false,description="스킨6의 설명",property="MayuSkins"},
+            new Item(){id=7,name="스킨7",available=false,description="스킨7의 설명",property="AkinaSkins"},
+            new Item(){id=8,name="스킨8",available=false,description="스킨8의 설명",property="AkinaSkins"},
+            new Item(){id=9,name="스킨9",available=false,description="스킨9의 설명",property="AkinaSkins"},
+            new Item(){id=10,name="스킨10",available=false,description="스킨10의 설명",property="FuwaSkins"},
         };
         FunitureList = new List<Item>(){
             new Item(){id=0,name="가구1",available=false,cost=100,description="가구1의 설명",property="Funiture0"},

@@ -7,13 +7,11 @@ using UnityEngine;
 public class SaveScript : MonoBehaviour {
 
     private GameData gameData;
-    private GameController gameController;
     private string savePath;
 
 	void Start () 
 	{
         gameData = GetComponent<GameData>();
-        gameController = GetComponent<GameController>();
         savePath = Application.persistentDataPath + "/gamesave";
 	}
 	
@@ -21,10 +19,6 @@ public class SaveScript : MonoBehaviour {
     {
         var save = new Save()
         {
-            SavedIngredientsList = gameData.IngredientsList,
-            SavedFoodList = gameData.FoodList,
-            SavedSkinList = gameData.SkinList,
-            SavedFunitureList = gameData.FunitureList,
             SavedPlayerInventory = gameData.PlayerInventory,
             SavedPlayInformation = gameData.playInformation,
         };
@@ -50,10 +44,6 @@ public class SaveScript : MonoBehaviour {
                 save = (Save)binaryFormatter.Deserialize(fileStream);
             }
 
-            gameData.IngredientsList = save.SavedIngredientsList;
-            gameData.SkinList = save.SavedSkinList;
-            gameData.FoodList = save.SavedFoodList;
-            gameData.FunitureList = save.SavedFunitureList;
             gameData.PlayerInventory = save.SavedPlayerInventory;
             gameData.playInformation = save.SavedPlayInformation;
 
