@@ -16,7 +16,6 @@ public class HatakeItemController : MonoBehaviour
     {
         AlertMessageText = AlertChang.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
         gameData = GameObject.Find("GameController").gameObject.GetComponent<GameData>();
-        gameController = GameObject.Find("GameController").gameObject.GetComponent<GameController>();
     }
 
     void OnDisable()

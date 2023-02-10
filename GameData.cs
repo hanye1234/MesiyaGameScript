@@ -58,6 +58,14 @@ public class GameData : MonoBehaviour {
     };
     public PlayInformation playInformation;
     public GameObject AlertWindow;
+    void Awake()
+    {
+
+    }
+    void Start() {
+        AlertWindow = GameObject.Find("AlertUI").gameObject.transform.GetChild(0).gameObject;
+        AlertWindow.SetActive(false);
+    }
     public void ResetGameData()
     {
         IngredientsList = new List<Item>()
