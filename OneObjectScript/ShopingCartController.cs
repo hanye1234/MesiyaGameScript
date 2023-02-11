@@ -6,6 +6,7 @@ using TMPro;
 public class ShopingCartController : MonoBehaviour
 {
     GameData gameData;
+    SceneController scene;
     public TextMeshProUGUI ShopCostText;
     public TextMeshProUGUI ExpectedMoneyText;
     public GameObject ShopChang;
@@ -17,6 +18,7 @@ public class ShopingCartController : MonoBehaviour
     void Awake()
     {
         gameData = GameObject.Find("GameController").gameObject.GetComponent<GameData>();
+        scene = GameObject.Find("SceneController").gameObject.GetComponent<SceneController>();
     }
     void Start()
     {
@@ -111,7 +113,7 @@ public class ShopingCartController : MonoBehaviour
     }
 
     public void BuyConfirm(){
-        if(gameData.CanIBuyItWithAlertWindow(CalculateShopCost())){
+        if(scene.CanIBuyItWithAlertWindow(CalculateShopCost())){
             gameData.AddMoney(-CalculateShopCost());
             foreach(Item tempitem in ShoppingCartList){
                 gameData.AddIngredients(tempitem.id,tempitem.have);

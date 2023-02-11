@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-
+using TMPro;
 public class GameData : MonoBehaviour {
 
     public Dictionary<int, string> RyouriDict = new Dictionary<int, string>()
@@ -57,14 +57,13 @@ public class GameData : MonoBehaviour {
         Skins = new List<InventoryItem>()
     };
     public PlayInformation playInformation;
-    public GameObject AlertWindow;
+
     void Awake()
     {
 
     }
     void Start() {
-        AlertWindow = GameObject.Find("AlertUI").gameObject.transform.GetChild(0).gameObject;
-        AlertWindow.SetActive(false);
+        
     }
     public void ResetGameData()
     {
@@ -88,7 +87,7 @@ public class GameData : MonoBehaviour {
         FoodList = new List<Item>()
         {
             new Item(){id=0,kname="두부튀김",jname="揚げ豆腐",cost=0,have=0,available=false,recipe = new int[]{11},property="Foods"},
-            new Item(){id=1,kname="주먹밥",jname="おにぎり",cost=0,have=0,available=false,recipe=new int[]{10},property="Foods"},
+            new Item(){id=1,kname="주먹밥",jname="おにぎり",cost=0,have=0,available=true,recipe=new int[]{10},property="Foods"},
             new Item(){id=2,kname="계란후라이",jname="目玉焼き",cost=0,have=0,available=false,recipe=new int[]{2},property="Foods"},
             new Item(){id=3,kname="햄버그",jname="ハンバーグ",cost=0,have=0,available=false,recipe=new int[]{9},property="Foods"},
             new Item(){id=4,kname="생선구이",jname="焼き魚",cost=0,have=0,available=false,recipe=new int[]{1},property="Foods"},
@@ -150,7 +149,7 @@ public class GameData : MonoBehaviour {
             PlayerInventory.Ingredients.Add(new InventoryItem(){id=i,have=0});
         }
         for(int i=0;i<FoodList.Count;i++){
-            PlayerInventory.Foods.Add(new InventoryItem(){id=i,have=0});
+            PlayerInventory.Foods.Add(new InventoryItem(){id=i,available=true,equipped=false});
         }
         for(int i=0;i<FunitureList.Count;i++){
             PlayerInventory.Funitures.Add(new InventoryItem(){id=i,equipped=false,available=false});
@@ -181,13 +180,7 @@ public class GameData : MonoBehaviour {
         return true;
     }
 
-    public bool CanIBuyItWithAlertWindow(int M){
-        if(playInformation.Money<M){
-            AlertWindow.SetActive(true);
-            return false;
-        }
-        return true;
-    }
+    
 
     public void AddIngredients(int id, int count)
     {
@@ -230,6 +223,126 @@ public class GameData : MonoBehaviour {
             return 3;
         }
         return -1;
+    }
+
+    List<Item> ItemPropertyStringToDataList(string propertyString){
+        List<Item> CurrentList = new List<Item>();
+        if(propertyString.Contains("Ingredient")){
+            CurrentList = IngredientsList;
+        }else if(propertyString.Contains("Skin")){
+            CurrentList = SkinList;
+        }else if(propertyString.Contains("Funiture")){
+            CurrentList = FunitureList;
+        }else if(propertyString.Contains("Food")){
+            CurrentList = FoodList;
+        }else{
+            Debug.Log("ItemPropertyStringToDataList실행불가");
+        }
+        return CurrentList;
+    }
+
+    List<InventoryItem> ItemPropertyStringToInventoryList(string propertyString){
+        List<InventoryItem> CurrentList = new List<InventoryItem>();
+        if(propertyString.Contains("Ingredient")){
+            CurrentList = PlayerInventory.Ingredients;
+        }else if(propertyString.Contains("Skin")){
+            CurrentList = PlayerInventory.Skins;
+        }else if(propertyString.Contains("Funiture")){
+            CurrentList = PlayerInventory.Funitures;
+        }else if(propertyString.Contains("Food")){
+            CurrentList = PlayerInventory.Foods;
+        }else{
+            Debug.Log("ItemPropertyStringToInventoryList실행불가");
+        }
+        return CurrentList;
+    }
+
+    public void ShowItems(List<GameObject> objectlist,List<Item> itemlist){
+        
+        foreach(GameObject temp in objectlist){
+            temp.SetActive(false);
+        }
+
+        if(itemlist.Count<1){
+            return;
+        }
+
+        List<Item> CurrentList = ItemPropertyStringToDataList(itemlist[0].property);
+        
+        
+        for(int i=0;i<itemlist.Count;i++){
+            objectlist[i].SetActive(true);
+            objectlist[i].transform.GetChild(0).gameObject.GetComponent<Image>().sprite = CurrentList[itemlist[i].id].image;
+        }
+    }
+
+    public void ShowItemsWithHave(List<GameObject> objectlist,List<Item> itemlist){
+        
+        foreach(GameObject temp in objectlist){
+            temp.SetActive(false);
+        }
+
+        if(itemlist.Count<1){
+            return;
+        }
+
+        List<Item> CurrentList = ItemPropertyStringToDataList(itemlist[0].property);
+        List<InventoryItem> CurrentInventory = ItemPropertyStringToInventoryList(itemlist[0].property);
+        
+        for(int i=0;i<itemlist.Count;i++){
+            objectlist[i].SetActive(true);
+            objectlist[i].transform.GetChild(0).gameObject.GetComponent<Image>().sprite = CurrentList[itemlist[i].id].image;
+            TextMeshProUGUI suji = objectlist[i].transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            suji.text = CurrentInventory[i].have.ToString();
+        }
+    }
+
+    public void ShowItemsWithCount(List<GameObject> objectlist,List<Item> itemlist,List<int> Count){
+        
+        foreach(GameObject temp in objectlist){
+            temp.SetActive(false);
+        }
+
+        if(itemlist.Count<1){
+            return;
+        }
+
+        List<Item> CurrentList = ItemPropertyStringToDataList(itemlist[0].property);
+        List<InventoryItem> CurrentInventory = ItemPropertyStringToInventoryList(itemlist[0].property);
+        
+        for(int i=0;i<itemlist.Count;i++){
+            objectlist[i].SetActive(true);
+            objectlist[i].transform.GetChild(0).gameObject.GetComponent<Image>().sprite = CurrentList[itemlist[i].id].image;
+            TextMeshProUGUI suji = objectlist[i].transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            suji.text = Count[i].ToString();
+        }
+    }
+
+    public List<Item> MakeCurrentAvailableItemList(string property, string ForWhat){
+        List<Item> CurrentItemDataList = ItemPropertyStringToDataList(property);
+        List<InventoryItem> CurrentInventory = ItemPropertyStringToInventoryList(property);
+        List<Item> ReturnItemList = new List<Item>();
+        if(ForWhat.Contains("available")){
+            foreach(Item temp in CurrentItemDataList){
+                if(CurrentInventory[temp.id].available){
+                    ReturnItemList.Add(temp);
+                }
+            }
+        }else if(ForWhat.Contains("equip")){
+            foreach(Item temp in CurrentItemDataList){
+                if(CurrentInventory[temp.id].equipped){
+                    ReturnItemList.Add(temp);
+                }
+            }
+        }else if(ForWhat.Contains("have")){
+            foreach(Item temp in CurrentItemDataList){
+                if(CurrentInventory[temp.id].have>0){
+                    ReturnItemList.Add(temp);
+                }
+            }
+        }
+
+        return ReturnItemList;
     }
 
 }

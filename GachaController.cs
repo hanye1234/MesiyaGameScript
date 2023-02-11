@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GachaController : MonoBehaviour
 {
     GameData gameData;
+    SceneController scene;
     public GameObject GachaResult;
     public List<GameObject> GachaCardObjectList;
     public GameObject GachaEndButton;
@@ -18,6 +19,7 @@ public class GachaController : MonoBehaviour
     void Awake() {
 
         gameData = GameObject.Find("GameController").gameObject.GetComponent<GameData>();
+        scene = GameObject.Find("SceneController").gameObject.GetComponent<SceneController>();
         GachaCardObjectSpriteList = new List<Image>();
         CardControllerList = new List<GachaCardController>();
         foreach(GameObject temp in GachaCardObjectList){
@@ -28,7 +30,7 @@ public class GachaController : MonoBehaviour
     
 
     public void IsGachaAvailable(int M){
-        if(gameData.CanIBuyItWithAlertWindow(M)){
+        if(scene.CanIBuyItWithAlertWindow(M)){
             GachaConfirm.SetActive(false);
             GachaConfirm10.SetActive(false);
             gameData.AddMoney(-M);

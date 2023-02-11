@@ -6,6 +6,7 @@ using TMPro;
 public class ShopFunitureController : MonoBehaviour
 {
     GameData gameData;
+    public SceneController scene;
     public List<GameObject> ShopObject;
     List<Item> CurrentShopItems;
     public TextMeshProUGUI FunitureDescriptionText;
@@ -14,11 +15,14 @@ public class ShopFunitureController : MonoBehaviour
     void Awake()
     {
         CurrentShopItems  = new List<Item>();
+        gameData = GameObject.Find("GameController").gameObject.GetComponent<GameData>();
+        scene = GameObject.Find("SceneController").gameObject.GetComponent<SceneController>();
+
     }
     // Start is called before the first frame update
     void Start()
     {
-        gameData = GameObject.Find("GameController").gameObject.GetComponent<GameData>();
+        
         for (int i=0;i<gameData.FunitureList.Count;i++){
             CurrentShopItems.Add(new Item(){id=i});
         }
@@ -54,7 +58,7 @@ public class ShopFunitureController : MonoBehaviour
         if(gameData.PlayerInventory.Funitures[itemid].available){
             Debug.Log("이미 갖고 있는 가구입니다");
         }
-        else if(gameData.CanIBuyItWithAlertWindow(gameData.FunitureList[itemid].cost)==false){
+        else if(scene.CanIBuyItWithAlertWindow(gameData.FunitureList[itemid].cost)==false){
             Debug.Log("돈이 모자랍니다");
         }
         else{

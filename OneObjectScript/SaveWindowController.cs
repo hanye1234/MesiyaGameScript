@@ -17,6 +17,7 @@ public class SaveWindowController : MonoBehaviour
     Save TempLoadedData;
     bool IsSaveDataExist = false;
     int CurrentSlotIndex;
+    string SavedTime;
     void Awake()
     {
         gameData = GameObject.Find("GameController").gameObject.GetComponent<GameData>();
@@ -35,6 +36,7 @@ public class SaveWindowController : MonoBehaviour
                 TempLoadedData = (Save)binaryFormatter.Deserialize(fileStream);
             }
             IsSaveDataExist = true;
+            SavedTime = new FileInfo(savePath+loadnum+".save").LastWriteTime.ToString();
         }
         else
         {
@@ -49,7 +51,8 @@ public class SaveWindowController : MonoBehaviour
         SaveDataNumText.text = loadnum.ToString()+"번 세이브 데이터";
         if(IsSaveDataExist){
             SaveDataDescriptionText.text = TempLoadedData.SavedPlayInformation.Day+"일차 \n"
-                                            +"소지금 "+TempLoadedData.SavedPlayInformation.Money.ToString()+"원";
+                                            +"소지금 "+TempLoadedData.SavedPlayInformation.Money.ToString()+"원 \n\n"
+                                            +"세이브 날짜 : \n"+SavedTime;
         }
         else{
             SaveDataDescriptionText.text = "아직 세이브 되지 않았습니다.";
