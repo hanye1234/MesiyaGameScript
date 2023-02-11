@@ -20,8 +20,8 @@ public class DebugFunction : MonoBehaviour
 
     public void ItemCheat()
     {
-        for(int i=0;i<gameData.IngredientsList.Count;i++){
-            gameData.IngredientsList[i].have =999;
+        for(int i=0;i<gameData.PlayerInventory.Ingredients.Count;i++){
+            gameData.PlayerInventory.Ingredients[i].have =999;
         }
         
     }

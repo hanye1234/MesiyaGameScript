@@ -66,8 +66,12 @@ public class PlayerController : MonoBehaviour
 
     public void TryToGetSomething(){
         if(CurrentRayHit.collider!=null){
-            Debug.Log(CurrentRayHit.collider.name);
-            CurrentRayHit.collider.gameObject.SetActive(false);
+            if(CurrentRayHit.collider.gameObject.CompareTag("Table")){
+                CurrentRayHit.collider.gameObject.GetComponent<TableController>().TryTableAction();
+            }else if(CurrentRayHit.collider.gameObject.CompareTag("Item")){
+                CurrentRayHit.collider.gameObject.SetActive(false);
+            }
+            
         }
     }
 }
