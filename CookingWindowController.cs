@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +8,8 @@ public class CookingWindowController : MonoBehaviour
 {
     GameData gameData;
     SceneController scene;
+    public GameObject Bubble;
+    public CookingTableController ActivateTableController;
     public List<GameObject> IngredientButtonObject;
     public List<GameObject> InputIngredientButtonObject;
     public List<GameObject> RecipeButtonObject;
@@ -82,6 +86,36 @@ public class CookingWindowController : MonoBehaviour
     }
 
     public void ConfirmCooking(){
+        
+        int CookingResult = Cooking(CurrentInputIngredientList);
+        if(CookingResult == -1){
+            scene.AlertSomething("해당하는 레시피가 없습니다...");
+        }else{
+            ActivateTableController.bubbleController.gameObject.SetActive(true);
+            ActivateTableController.bubbleController.ShowBubble(gameData.FoodList[CookingResult]);
+            foreach(Item temp in CurrentInputIngredientList){
+                gameData.AddIngredients(temp.id,-1);
+            }
+            ActivateTableController.CookingStart();
+            gameObject.transform.parent.gameObject.SetActive(false);
+        }
+        
+    }
 
+    int Cooking(List<Item> InputIngredients){
+        List<int> RecipeByInput = new List<int>();
+        foreach(Item temp in InputIngredients){
+            RecipeByInput.Add(temp.id);
+        }
+
+        List<Item> CurrentAvailableFood = gameData.MakeCurrentAvailableItemList("Food","available");
+        foreach(Item temp in CurrentAvailableFood){
+            bool result = Enumerable.SequenceEqual(temp.recipe.ToList().OrderBy(a=>a),RecipeByInput.OrderBy(a=>a));
+            if(result){
+                return temp.id;
+            }
+        }
+
+        return -1;
     }
 }

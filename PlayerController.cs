@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     RaycastHit2D CurrentRayHit;
     List<Vector3> DirectionVectorList;
     int Direction;
+    Item HoldedItem = new Item(){id=999};
     // Start is called before the first frame update
     void Awake()
     {
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour
         InputX = Input.GetAxis("Horizontal");
         InputY = Input.GetAxis("Vertical");
         if(Mathf.Abs(InputX)>0.1 || Mathf.Abs(InputY)>0.1){
-            Move(InputX,InputY,10f*Time.deltaTime);
+            Move(InputX,InputY,5f*Time.deltaTime);
         }
         Debug.DrawRay(rigidbody2d.position,Vector3.down,new Color(0,1,0));
     }
@@ -66,13 +67,36 @@ public class PlayerController : MonoBehaviour
 
     public void TryToGetSomething(){
         if(CurrentRayHit.collider!=null){
-            if(CurrentRayHit.collider.gameObject.CompareTag("Table")){
+            if(CurrentRayHit.collider.gameObject.CompareTag("CookingTable")){
+                CurrentRayHit.collider.gameObject.GetComponent<CookingTableController>().TryAction();
+            }else if(CurrentRayHit.collider.gameObject.CompareTag("DiningTable")){
+                CurrentRayHit.collider.gameObject.GetComponent<DiningTableController>().TryAction();
+            }else if(CurrentRayHit.collider.gameObject.CompareTag("Table")){
                 CurrentRayHit.collider.gameObject.GetComponent<TableController>().TryTableAction();
             }else if(CurrentRayHit.collider.gameObject.CompareTag("Item")){
                 CurrentRayHit.collider.gameObject.SetActive(false);
             }
             
         }
+    }
+
+
+    public bool HoldItem(Item item){
+        if(HoldedItem.id == 999){
+            HoldedItem = item;
+            return true;
+        }
+        return false;
+    }
+
+    public Item ReleaseItem(){
+        Item Return = HoldedItem;
+        HoldedItem = new Item(){id=999};
+        return Return;
+    }
+
+    public Item GetHoldedItem(){
+        return HoldedItem;
     }
 }
 
