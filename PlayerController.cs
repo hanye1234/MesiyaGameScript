@@ -72,7 +72,9 @@ public class PlayerController : MonoBehaviour
             }else if(CurrentRayHit.collider.gameObject.CompareTag("DiningTable")){
                 CurrentRayHit.collider.gameObject.GetComponent<DiningTableController>().TryAction();
             }else if(CurrentRayHit.collider.gameObject.CompareTag("Table")){
-                CurrentRayHit.collider.gameObject.GetComponent<TableController>().TryTableAction();
+                if(CurrentRayHit.collider.gameObject.GetComponent<OrderTableController>().TryAction(HoldedItem)){
+                    ReleaseItem();
+                }
             }else if(CurrentRayHit.collider.gameObject.CompareTag("Item")){
                 CurrentRayHit.collider.gameObject.SetActive(false);
             }
