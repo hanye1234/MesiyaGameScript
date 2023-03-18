@@ -149,7 +149,7 @@ public class GameData : MonoBehaviour {
             PlayerInventory.Ingredients.Add(new InventoryItem(){id=i,have=0});
         }
         for(int i=0;i<FoodList.Count;i++){
-            PlayerInventory.Foods.Add(new InventoryItem(){id=i,available=true,equipped=false});
+            PlayerInventory.Foods.Add(new InventoryItem(){id=i,available=true,equipped=true});
         }
         for(int i=0;i<FunitureList.Count;i++){
             PlayerInventory.Funitures.Add(new InventoryItem(){id=i,equipped=false,available=false});

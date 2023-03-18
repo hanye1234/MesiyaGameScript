@@ -26,9 +26,9 @@ public class BusinessSceneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GeneratedCustomerCount<CustomerObjects.Count && CustomerGenerated == false){
-            StartCoroutine("GenerateCustomer");
-        }
+        // if(GeneratedCustomerCount<CustomerObjects.Count && CustomerGenerated == false){
+        //     StartCoroutine("GenerateCustomer");
+        // }
     }
 
     IEnumerator GenerateCustomer(){
