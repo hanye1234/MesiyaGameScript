@@ -18,7 +18,10 @@ public class CustomerController : MonoBehaviour
     public int Ydirection = 0;
     bool ismoving=false;
     public GameObject table;
+    public GameObject seat;
+    OrderTableController orderTableController;
     public Customer customerStatus;
+    public MapSearcher mapSearcher;
     void OnEnable()
     {
         StartCoroutine("Enter");
@@ -38,11 +41,17 @@ public class CustomerController : MonoBehaviour
             }else if(progress == 2){
                 StartCoroutine("SelectOrder");
             }else if(progress == 3){
-
+                if(orderTableController.progress==3){
+                    progress=4;
+                }
             }else if(progress == 4){
                 StartCoroutine("Eating");
             }else if(progress == 5){
-                StartCoroutine("MoveToDoor");
+                
+                SetMoveTo(8,-3,5.0f*Time.deltaTime);
+                if(Xdirection == 0 && Ydirection ==0){
+                    progress = 999;
+                }
             }
         }
         
@@ -50,14 +59,15 @@ public class CustomerController : MonoBehaviour
 
     public void ChangeStatus(Customer status){
         customerStatus = status;
+        progress = 0;
     }
 
     void SetMoveTo(float X,float Y,float speed){
         if(ismoving){
             if(Math.Abs(Xdirection)>Math.Abs(Ydirection)){
-                MoveX(table.transform.position.x,Xdirection,speed);
+                MoveX(X,Xdirection,speed);
             }else{
-                MoveY(table.transform.position.y,Ydirection,speed);
+                MoveY(Y,Ydirection,speed);
             }
         }else{
             Xposition = transform.position.x;
@@ -129,16 +139,18 @@ public class CustomerController : MonoBehaviour
 
     IEnumerator SearchTable(){
         able = false;
-        TargetX = table.transform.position.x;
-        TargetY = table.transform.position.y;
+        int index = mapSearcher.FindCustomerTable();
+        if(index>-1){
+            table = mapSearcher.GetTableObjectByIndex(index);
+            orderTableController = table.GetComponent<OrderTableController>();
+            seat = mapSearcher.GetSeatObjectByIndex(index);
+            TargetX = seat.transform.position.x;
+            TargetY = seat.transform.position.y;
+            orderTableController.progress = 1;
+            progress = 1;
+        }        
         yield return new WaitForSeconds(1.0f);
-        progress = 1;
-        able = true;
-    }
-
-    IEnumerator MoveToTable(){
-        able = false;
-        yield return new WaitForSeconds(0.1f);
+        
         able = true;
     }
 
@@ -146,6 +158,8 @@ public class CustomerController : MonoBehaviour
         able = false;
         yield return new WaitForSeconds(5.0f*speed);
         progress = 3;
+        Debug.Log(customerStatus.order.id);
+        orderTableController.OrderFood(customerStatus.order);
         able = true;
     }
 
@@ -153,12 +167,11 @@ public class CustomerController : MonoBehaviour
         able = false;
         yield return new WaitForSeconds(5.0f*speed);
         progress = 5;
+        orderTableController.Eated();
         able = true;
-    }
-
-    IEnumerator MoveToDoor(){
-        able = false;
-        yield return new WaitForSeconds(5.0f);
+        ismoving = true;
+        Xdirection = 1;
+        Ydirection = -2;
     }
 
 }

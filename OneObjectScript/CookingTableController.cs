@@ -38,4 +38,16 @@ public class CookingTableController : MonoBehaviour
         IsCooking = false;
     }
 
+    public bool IsAvailable(){
+        if(IsCooking==false && CookingIsDone == false){
+            return true;
+        }
+
+        return false;
+    }
+    
+    public int GetCurrentFoodId(){
+        return bubbleController.ReturnCurrentFood().id;
+    }
+
 }

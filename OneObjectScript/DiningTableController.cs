@@ -15,13 +15,10 @@ public class DiningTableController : MonoBehaviour
     }
     public void TryAction(){
         Debug.Log("TryAction");
-        if(CurrentOnItem.id == 999)
+        if(IsAvailable())
         {
-            CurrentOnItem = playerController.ReleaseItem();
-            if(CurrentOnItem.id != 999){
-                ChangeSprite();
-            }
-            
+            PutOnItem(playerController.ReleaseItem());
+
         }else{
             bool IsHolded =  playerController.HoldItem(CurrentOnItem);
             if(IsHolded){
@@ -40,5 +37,27 @@ public class DiningTableController : MonoBehaviour
     void ResetSprite()
     {
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
+    }
+
+    public void PutOnItem(Item item){
+        CurrentOnItem = item;
+        if(IsAvailable()){
+            ResetSprite();
+        }else{
+            ChangeSprite();
+        }
+    }
+
+    public bool IsAvailable(){
+        if(CurrentOnItem.id==999){
+            return true;
+        }
+        return false;
+    }
+    public Item GetCurrentItem(){
+        return CurrentOnItem;
+    }
+    public int GetCurrentItemId(){
+        return CurrentOnItem.id;
     }
 }

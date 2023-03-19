@@ -5,7 +5,7 @@ using UnityEngine;
 public class OrderTableController : MonoBehaviour
 {
     // 손님이 주문한 것
-    int order;
+    public int order;
     // 테이블의 상태를 나타내는 수치. 0은 비어있음. 1은 손님이 앉음. 2는 주문한 음식이 오길 대기 중. 3은 식사 중. 4는 접시만 남음.
     public int progress;
     SpriteRenderer FoodSprite;
@@ -24,10 +24,7 @@ public class OrderTableController : MonoBehaviour
     public bool TryAction(Item HoldedItem){
         if(progress==2){
             if(order == HoldedItem.id){
-                progress = 3;
-                transform.GetChild(0).gameObject.SetActive(true);
-                FoodSprite.sprite = HoldedItem.image;
-                StartCoroutine("Eating");
+                Served(HoldedItem);
                 return true;
             }
         }else if(progress==4){
@@ -37,27 +34,23 @@ public class OrderTableController : MonoBehaviour
         return false;
     }
 
-    IEnumerator OrderSelecting(){
-        yield return new WaitForSeconds(1.0f);
-        order = 0;
-        progress = 2;
-        transform.GetChild(1).gameObject.SetActive(true);
-        bubble.ShowBubble(new Item());
-    }
-
-
-    IEnumerator Eating(){
-        yield return new WaitForSeconds(5.0f);
+    public void Eated(){
         progress = 4;
         FoodSprite.sprite = plate;
     }
 
-    public void SeatCustomer(){
-        progress = 1;
-        StartCoroutine("OrderSelecting");
+    public void OrderFood(Item food){
+        progress = 2;
+        order = food.id;
+        transform.GetChild(1).gameObject.SetActive(true);
+        bubble.ShowBubble(food);
     }
 
-    public void OrderFood(){
-
+    public void Served(Item food){
+        progress = 3;
+        transform.GetChild(0).gameObject.SetActive(true);
+        FoodSprite.sprite = food.image;
+        transform.GetChild(1).gameObject.SetActive(false);
+        order = 999;
     }
 }

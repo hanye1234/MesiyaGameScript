@@ -149,8 +149,10 @@ public class GameData : MonoBehaviour {
             PlayerInventory.Ingredients.Add(new InventoryItem(){id=i,have=0});
         }
         for(int i=0;i<FoodList.Count;i++){
-            PlayerInventory.Foods.Add(new InventoryItem(){id=i,available=true,equipped=true});
+            PlayerInventory.Foods.Add(new InventoryItem(){id=i,available=true,equipped=false});
         }
+        PlayerInventory.Foods[0].equipped = true;
+        PlayerInventory.Foods[1].equipped = true;
         for(int i=0;i<FunitureList.Count;i++){
             PlayerInventory.Funitures.Add(new InventoryItem(){id=i,equipped=false,available=false});
         }
@@ -345,4 +347,7 @@ public class GameData : MonoBehaviour {
         return ReturnItemList;
     }
 
+    public Item GetItemDataByIdWithString(int id , string ForWhat){
+        return ItemPropertyStringToDataList(ForWhat)[id];
+    }
 }
